@@ -1,0 +1,79 @@
+@model HomeIndexViewModel
+@{
+    ViewData["TitleKey"] = "homeTitle";
+    ViewData["Page"] = "home";
+}
+
+  <div class="view" id="home">
+
+    <main class="hero">
+      <div class="hero-inner">
+        <h1>BookMatrix</h1>
+        <p data-i18n="heroText">@L["heroText"]</p>
+        <div class="hero-actions">
+          <a asp-controller="Home" asp-action="Index" asp-fragment="catalog" class="btn btn-blue" data-nav="catalog" data-i18n="seeLibraryCatalog">@L["seeLibraryCatalog"]</a>
+        </div>
+      </div>
+    </main>
+
+    <section class="catalog" id="catalog">
+      <div class="catalog-inner">
+        <h2 data-i18n="catalog">@L["catalog"]</h2>
+        <p class="lead" data-i18n="catalogIntro">@L["catalogIntro"]</p>
+
+        <div class="toolbar">
+          <input class="search" id="search" type="search" placeholder="@L["searchPlaceholder"]" aria-label="@L["searchPlaceholder"]" data-i18n-placeholder="searchPlaceholder" data-i18n-aria-label="searchPlaceholder" autocomplete="off">
+          <div class="chips" role="group" aria-label="@L["filterStatus"]" data-i18n-aria-label="filterStatus">
+            <button class="chip" data-filter="all" aria-pressed="true" data-i18n="all">@L["all"]</button>
+            <button class="chip" data-filter="free" aria-pressed="false" data-i18n="available">@L["available"]</button>
+            <button class="chip" data-filter="out" aria-pressed="false" data-i18n="borrowed">@L["borrowed"]</button>
+          </div>
+        </div>
+
+        <p class="meta" id="meta"></p>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th data-i18n="title">@L["title"]</th><th data-i18n="author">@L["author"]</th><th data-i18n="publisher">@L["publisher"]</th><th data-i18n="year">@L["year"]</th>
+                <th data-i18n="status">@L["status"]</th><th data-i18n="borrowedOn">@L["borrowedOn"]</th><th data-i18n="borrowedBy">@L["borrowedBy"]</th><th></th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+
+        <div class="pager">
+          <button id="prev" data-i18n="previousPage">@L["previousPage"]</button>
+          <span id="page-info"></span>
+          <button id="next" data-i18n="nextPage">@L["nextPage"]</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <dialog class="borrow" id="borrow-dialog">
+    <form method="dialog" id="borrow-form">
+      @Html.AntiForgeryToken()
+      <h3 data-i18n="borrowTitle">@L["borrowTitle"]</h3>
+      <p class="book-line" id="borrow-book"></p>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-ghost" id="borrow-cancel" data-i18n="cancel">@L["cancel"]</button>
+        <button type="submit" class="btn btn-blue" data-i18n="confirm">@L["confirm"]</button>
+      </div>
+    </form>
+  </dialog>
+
+@section Scripts {
+  <script>
+    window.BM_CATALOG = {
+      apiUrl: @Json.Serialize(Url.Content("~/api/books")),
+      perPage: @Model.PerPage,
+      canBorrow: @Json.Serialize(Model.CanBorrow),
+      loginUrl: @Json.Serialize(Url.Action("Login", "Account")),
+      page: @Json.Serialize(Model.Initial),
+    };
+  </script>
+  <script src="~/js/catalog.js" asp-append-version="true"></script>
+}

@@ -1,0 +1,46 @@
+@model LoginInputModel
+@{
+    ViewData["TitleKey"] = "loginTitle";
+    ViewData["Page"] = "login";
+}
+
+  <div class="view" id="login">
+    <main class="auth">
+      <h1 data-i18n="loginHeading">@L["loginHeading"]</h1>
+      <p class="subtitle" data-i18n="loginIntro">@L["loginIntro"]</p>
+
+      <form asp-controller="Account" asp-action="Login" method="post" id="login-form" novalidate>
+        <input type="hidden" asp-for="ReturnUrl">
+        <div asp-validation-summary="All" class="error"></div>
+        @if (ViewData["AuthError"] is string authError)
+        {
+          <p class="error">@authError</p>
+        }
+        <div class="field">
+          <label for="login-email" data-i18n="email">@L["email"]</label>
+          <input id="login-email" name="Email" type="email" value="@Model.Email" maxlength="254" autocomplete="email" required>
+          <p class="error" id="login-email-error"></p>
+        </div>
+
+        <div class="field">
+          <label for="login-password" data-i18n="password">@L["password"]</label>
+          <input id="login-password" name="Password" type="password" autocomplete="current-password" required>
+          <p class="error" id="login-password-error"></p>
+        </div>
+
+        <label class="remember" for="remember">
+          <input id="remember" name="RememberMe" type="checkbox" value="true">
+          <span data-i18n="rememberMe">@L["rememberMe"]</span>
+        </label>
+
+        <button type="submit" class="submit" data-i18n="login">@L["login"]</button>
+      </form>
+
+      <p class="alt"><span data-i18n="noAccount">@L["noAccount"]</span> <a asp-controller="Account" asp-action="SignUp" data-nav="signup" data-i18n="signupLink">@L["signupLink"]</a></p>
+      <a asp-controller="Home" asp-action="Index" class="back" data-nav="home" data-i18n="backToSite">@L["backToSite"]</a>
+    </main>
+  </div>
+
+@section Scripts {
+  <script src="~/js/auth.js" asp-append-version="true"></script>
+}

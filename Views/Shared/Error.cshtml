@@ -1,0 +1,16 @@
+@{
+    ViewData["TitleKey"] = "homeTitle";
+    ViewData["Page"] = "error";
+}
+
+  <div class="view" id="error">
+    <main class="auth" style="padding: 72px 20px; margin: auto;">
+      <h1>ERROR</h1>
+      <p class="subtitle">An error occurred while processing your request.</p>
+      @if (ViewData["RequestId"] is string requestId)
+      {
+        <p class="subtitle">Request ID: <code>@requestId</code></p>
+      }
+      <a asp-controller="Home" asp-action="Index" class="back">&larr; Back to site</a>
+    </main>
+  </div>

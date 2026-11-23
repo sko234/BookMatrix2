@@ -1,0 +1,70 @@
+@model AdminDashboardViewModel
+@{
+    ViewData["TitleKey"] = "adminDashboardTitle";
+    ViewData["Page"] = "admin";
+}
+
+  <div class="view" id="admin">
+    <main class="admin-dashboard">
+      <h1 data-i18n="adminDashboardHeading">@L["adminDashboardHeading"]</h1>
+      <div class="admin-spreadsheets">
+        <section class="admin-sheet">
+          <h2 data-i18n="registeredUsers">@L["registeredUsers"]</h2>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th data-i18n="email">@L["email"]</th>
+                  <th data-i18n="username">@L["username"]</th>
+                  <th data-i18n="currentBorrowedCount">@L["currentBorrowedCount"]</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach (var user in Model.Users)
+                {
+                  <tr>
+                    <td>@user.Email</td>
+                    <td>@user.Username</td>
+                    <td>@user.BorrowedBookCount</td>
+                  </tr>
+                }
+                @if (Model.Users.Count == 0)
+                {
+                  <tr><td class="admin-empty" colspan="3" data-i18n="noRegisteredUsers">@L["noRegisteredUsers"]</td></tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="admin-sheet">
+          <h2 data-i18n="currentlyBorrowedBooks">@L["currentlyBorrowedBooks"]</h2>
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th data-i18n="title">@L["title"]</th>
+                  <th data-i18n="author">@L["author"]</th>
+                  <th data-i18n="borrowedBy">@L["borrowedBy"]</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach (var book in Model.BorrowedBooks)
+                {
+                  <tr>
+                    <td>@book.Title</td>
+                    <td>@book.Author</td>
+                    <td>@book.BorrowerName</td>
+                  </tr>
+                }
+                @if (Model.BorrowedBooks.Count == 0)
+                {
+                  <tr><td class="admin-empty" colspan="3" data-i18n="noBorrowedBooks">@L["noBorrowedBooks"]</td></tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>

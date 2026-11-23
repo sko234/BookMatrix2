@@ -1,0 +1,35 @@
+@model AdminLoginInputModel
+@{
+    ViewData["TitleKey"] = "adminLoginTitle";
+    ViewData["Page"] = "admin-login";
+}
+
+  <div class="view" id="admin-login">
+    <main class="auth">
+      <h1 data-i18n="adminLoginHeading">@L["adminLoginHeading"]</h1>
+      <p class="subtitle" data-i18n="adminLoginIntro">@L["adminLoginIntro"]</p>
+
+      <form asp-controller="Admin" asp-action="Login" method="post" id="admin-login-form" novalidate>
+        <input type="hidden" asp-for="ReturnUrl">
+        <div asp-validation-summary="All" class="error"></div>
+        <div class="field">
+          <label for="username" data-i18n="username">@L["username"]</label>
+          <input id="username" name="Username" type="text" value="@Model.Username" maxlength="100" autocomplete="username" required>
+        </div>
+
+        <div class="field">
+          <label for="password" data-i18n="password">@L["password"]</label>
+          <input id="password" name="Password" type="password" autocomplete="current-password" required>
+        </div>
+
+        <label class="remember" for="remember">
+          <input id="remember" name="RememberMe" type="checkbox" value="true">
+          <span data-i18n="rememberMe">@L["rememberMe"]</span>
+        </label>
+
+        <button type="submit" class="submit" data-i18n="adminLoginSubmit">@L["adminLoginSubmit"]</button>
+      </form>
+
+      <a asp-controller="Home" asp-action="Index" class="back" data-nav="home" data-i18n="backToSite">@L["backToSite"]</a>
+    </main>
+  </div>
